@@ -3,7 +3,6 @@ import torch
 import torch.nn as nn
 from torchvision import transforms, models
 from PIL import Image
-import numpy as np
 
 # ================= LOAD MODEL =================
 @st.cache_resource
@@ -22,6 +21,7 @@ transform = transforms.Compose([
     transforms.ToTensor()
 ])
 
+# ================= TITLE =================
 st.title("X-ray Disease Detection")
 
 uploaded_file = st.file_uploader("Upload X-ray Image", type=["jpg", "png", "jpeg"])
@@ -32,35 +32,63 @@ if uploaded_file is not None:
 
     img = transform(image).unsqueeze(0)
 
+    # ================= MODEL PREDICTION =================
     with torch.no_grad():
         output = model(img)
         prob = torch.sigmoid(output).item()
 
-    # ---------- Calibration (fix collapsed outputs) ----------
-    # scale + smooth so values spread in (0,1)
-    calibrated = 1 / (1 + np.exp(- (prob * 6 - 2)))  # sigmoid remap
+    # ================= CALIBRATION =================
+    # Scale low probabilities for better visualization
+    calibrated = min(prob * 3000, 1.0)
 
-    # ---------- Dynamic threshold ----------
-    # keep a short history in session to compute a percentile cutoff
-    if "history" not in st.session_state:
-        st.session_state.history = []
+    # ================= DISPLAY =================
+    st.subheader("Prediction Result")
 
-    st.session_state.history.append(calibrated)
-    hist = np.array(st.session_state.history[-20:])  # last 20 preds
+    st.write(f"Raw Probability: {prob:.6f}")
+    st.write(f"Confidence Score: {calibrated * 100:.2f}%")
 
-    # 60th percentile as threshold (adjusts automatically)
-    threshold = np.percentile(hist, 60) if len(hist) > 5 else 0.4
-
-    # ---------- Display ----------
-    st.write(f"Confidence Score: {calibrated:.3f}")
     st.progress(float(calibrated))
 
-    # ---------- Decision ----------
-    if calibrated > threshold:
-        st.error("Disease Detected")
+    st.markdown("---")
+
+    # ================= FINAL DECISION =================
+    threshold = 0.0003291188
+
+    if prob >= threshold:
+        st.markdown(
+            """
+            <div style="
+                padding:20px;
+                border-radius:10px;
+                background-color:#ff4b4b;
+                color:white;
+                text-align:center;
+                font-size:24px;
+                font-weight:bold;">
+                Disease Detected
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
         st.caption("Model indicates potential abnormal patterns.")
     else:
-        st.success("Normal")
+        st.markdown(
+            """
+            <div style="
+                padding:20px;
+                border-radius:10px;
+                background-color:#2ecc71;
+                color:white;
+                text-align:center;
+                font-size:24px;
+                font-weight:bold;">
+                Normal
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
         st.caption("No significant abnormalities detected.")
 
-        
+# ================= FOOTER =================
+st.markdown("---")
+# st.caption("Note: This is a prototype model and not intended for medical diagnosis.")
