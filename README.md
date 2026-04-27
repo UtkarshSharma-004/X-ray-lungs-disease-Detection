@@ -1,4 +1,5 @@
-# 🩺 X-ray Disease Detection using Deep Learning
+# 🩺 X-ray Disease Detection using Deep Learning 
+you can try it here-> https://x-ray-lungs-disease-detection-us.streamlit.app/
 
 An end-to-end deep learning project that detects diseases from chest X-ray images using a pre-trained ResNet18 model and deploys predictions through a Streamlit web application.
 
