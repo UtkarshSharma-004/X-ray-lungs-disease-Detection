@@ -1,18 +1,28 @@
-# 🩺 X-ray Disease Detection using Deep Learning 
-you can try it here-> https://x-ray-lungs-disease-detection-us.streamlit.app/
+# 🩺 X-ray Disease Detection using Deep Learning
 
-An end-to-end deep learning project that detects diseases from chest X-ray images using a pre-trained ResNet18 model and deploys predictions through a Streamlit web application.
+[![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)]()
+[![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-red?logo=pytorch)]()
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-ff4b4b?logo=streamlit)]()
+[![Status](https://img.shields.io/badge/Status-Active-success)]()
+
+---
+
+## 🌐 Live Demo
+
+🚀 **Try the app here:**
+👉 https://x-ray-lungs-disease-detection-us.streamlit.app/
 
 ---
 
 ## 🚀 Project Overview
 
-This project focuses on building an AI-powered system capable of classifying chest X-ray images into:
+This project is an AI-powered system that detects diseases from chest X-ray images using deep learning.
+It classifies images into:
 
 * ✅ **Normal**
 * ⚠️ **Diseased**
 
-The system uses **transfer learning** with ResNet18 and handles challenges such as **imbalanced datasets** and **low probability outputs** through techniques like weighted loss and threshold tuning.
+The model is built using **ResNet18 (Transfer Learning)** and deployed with **Streamlit** for real-time predictions.
 
 ---
 
@@ -21,11 +31,13 @@ The system uses **transfer learning** with ResNet18 and handles challenges such 
 * Deep learning-based medical image classification
 * Transfer learning using ResNet18
 * Handles imbalanced dataset using weighted loss
-* Threshold tuning for improved disease detection
-* Real-time prediction using Streamlit
+* Threshold tuning for better disease detection
+* Real-time prediction via Streamlit
 * Confidence score + risk level visualization
 
 ---
+
+
 
 ## 🧩 Tech Stack
 
@@ -40,12 +52,11 @@ The system uses **transfer learning** with ResNet18 and handles challenges such 
 
 ## 📂 Project Structure
 
-```
+```bash
 ├── app.py                 # Streamlit application
 ├── requirements.txt      # Dependencies
-├── best_model.pth        # Trained model (not included in repo)
-├── samples/              # Sample X-ray images (optional)
-├── README.md             # Project documentation
+├── samples/              # Sample images (optional)
+├── README.md             # Documentation
 ```
 
 ---
@@ -53,18 +64,18 @@ The system uses **transfer learning** with ResNet18 and handles challenges such 
 ## ⚙️ How It Works
 
 1. Upload an X-ray image
-2. Image is preprocessed (resized to 128×128)
-3. Passed through ResNet18 model
-4. Sigmoid converts output to probability
-5. Threshold tuning is applied
-6. Final prediction displayed with confidence
+2. Image is resized to **128×128**
+3. Passed through **ResNet18 model**
+4. Sigmoid converts output → probability
+5. Threshold tuning applied
+6. Final prediction displayed
 
 ---
 
 ## 📊 Model Details
 
 * **Architecture:** ResNet18
-* **Output:** Single neuron (binary classification)
+* **Output:** Binary (1 neuron)
 * **Loss Function:** BCEWithLogitsLoss
 * **Optimizer:** Adam
 * **Image Size:** 128×128
@@ -73,25 +84,23 @@ The system uses **transfer learning** with ResNet18 and handles challenges such 
 
 ## ⚠️ Challenges & Solutions
 
-### Problem: Imbalanced Dataset
+### 🔴 Imbalanced Dataset
 
-* Majority class: Normal
-* Minority class: Diseased
+* Majority: Normal
+* Minority: Diseased
 
-### Solution:
+✅ Solution:
 
-* Used **pos_weight** in loss function
-* Applied **threshold tuning** instead of default 0.5
+* Used **pos_weight**
+* Applied **threshold tuning**
 
 ---
 
-### Problem: Very Low Output Probabilities
+### 🔴 Low Probability Outputs
 
-* Model outputs close to 0
+✅ Solution:
 
-### Solution:
-
-* Applied **scaling for visualization**
+* Applied **scaling for UI visualization**
 * Used **percentile-based thresholding**
 
 ---
@@ -103,23 +112,24 @@ The system uses **transfer learning** with ResNet18 and handles challenges such 
 * **Recall (Disease):** ~13%
 * **F1 Score:** ~13%
 
-> Note: Accuracy is high due to dataset imbalance. Recall is prioritized for medical diagnosis.
+> ⚠️ Accuracy can be misleading due to dataset imbalance. Recall is prioritized.
 
 ---
 
 ## 🌐 Deployment
 
-The model is deployed using **Streamlit**, allowing users to:
+The model is deployed using **Streamlit**:
 
-* Upload X-ray images
-* View predictions instantly
-* See confidence score and risk level
+* Upload X-ray image
+* Get real-time prediction
+* View confidence score
+* See risk level (Low / Medium / High)
 
 ---
 
 ## 📦 Setup Instructions
 
-### 1. Clone the repository
+### 1. Clone the repo
 
 ```bash
 git clone https://github.com/your-username/xray-disease-detection.git
@@ -130,7 +140,7 @@ cd xray-disease-detection
 
 ```bash
 python -m venv venv
-source venv/bin/activate   # Linux/Mac
+source venv/bin/activate   # Mac/Linux
 venv\Scripts\activate      # Windows
 ```
 
@@ -142,9 +152,9 @@ pip install -r requirements.txt
 
 ### 4. Add model file
 
-Place your trained model file:
+Place your trained model:
 
-```
+```bash
 best_model.pth
 ```
 
@@ -158,30 +168,23 @@ streamlit run app.py
 
 ---
 
-## ⚠️ Important Note
 
-* The trained model file is not included due to size limitations (>25MB)
-* You can load it via:
-
-  * Google Drive
-  * gdown
-  * or local file
 
 ---
 
 ## 🔮 Future Improvements
 
-* Train on full dataset for better accuracy
-* Multi-class disease classification
-* Add Grad-CAM visualization
-* Improve model generalization
-* Deploy on cloud
+* Train on full dataset
+* Multi-class classification
+* Grad-CAM visualization
+* Cloud deployment
+* Improve recall for disease class
 
 ---
 
 ## 📌 Disclaimer
 
-This project is for **educational purposes only** and is not intended for real medical diagnosis.
+This project is for **educational purposes only** and should not be used for real medical diagnosis.
 
 ---
 
@@ -192,6 +195,8 @@ B.Tech CSE (AI)
 
 ---
 
-## ⭐ If you like this project
+## ⭐ Support
 
-Give it a star on GitHub!
+If you like this project:
+👉 Star ⭐ the repo
+👉 Share with others
